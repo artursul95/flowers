@@ -1,0 +1,146 @@
+class Flower:
+    def __init__(self, name, color, price):
+        self.name = name
+        self.color = color
+        self.price = price
+
+    def __str__(self):
+        return f"{self.color} {self.name} (₽{self.price})"
+
+class Bouquet:
+    def __init__(self, boq_name):
+        self.boq_name = boq_name
+        self.flowers = []
+
+    def add_flower(self, flower, quantity):
+        for _ in range(quantity):
+            self.flowers.append(flower)
+
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    def remove_flower(self, index):
+        if 0 <= index <= len(self.flowers):
+            return self.flowers.pop(index)
+        return None
+
+    #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    def total_price(self):
+        return sum(flower.price for flower in self.flowers)
+
+    def __str__(self):
+        flowers_str = ', '.join(str(flower) for flower in self.flowers)
+        return f"Букет: {self.boq_name} | Цветы: [{flowers_str}] Цена: ₽{self.total_price()}"
+
+    # def compact_str(self):
+    #     flower_cnt = {}
+    #     for flower in self.flowers:
+    #         flower_cnt[flower.name] = flower_cnt.get(flower.name, 0)+1
+    #
+    #     compact_presentation = ', '.join(f"{cnt}x{name}x{color}" for name, cnt, color in flower_cnt.items())
+    #     return f"Букет: {self.boq_name} | Цветы: [{compact_presentation}] Цена: ₽{self.total_price()}"
+
+
+class Client:
+    def __init__(self, name):
+        self.name = name
+        self.bouqets = []
+
+    def create_bouquet(self, boq_name):
+        bouquet = Bouquet(boq_name)
+        self.bouqets.append(bouquet)
+        return bouquet
+
+    def show_bouqets(self):
+        if not self.bouqets:
+            print(f"{self.name} не имеет букетов.")
+            return
+        for bouquet in self.bouqets:
+            print(bouquet)
+
+    # def show_bouqets(self):
+    #     if not self.bouqets:
+    #         print(f"{self.name} не имеет букетов.")
+    #         return
+    #     for bouquet in self.bouqets:
+    #         print(bouquet.compact_str())
+
+def main():
+    available_flowers = [
+        Flower("Роза", "Красная", 100),
+        Flower("Роза", "Белая", 150),
+        Flower("Ромашка", "Белая", 20),
+        Flower("Ирис", "Сиреневый", 50),
+        Flower("Ирис", "Нежно-голубой", 70)
+    ]
+
+    client_name = input("Введите ваше имя: ")
+    client = Client(client_name)
+
+    num_bouqets = int(input("Сколько букетов вы хотите создать? Введите число: "))
+
+    for i in range(num_bouqets):
+        boq_name = input(f"Введите название букета №{i+1}: ")
+        bouqet = client.create_bouquet(boq_name)
+
+        # while True:
+        #     print("\nДоступные цветы: ")
+        #     for index, flower in enumerate(available_flowers, start = 1):
+        #         print(f"{index}. {flower}")
+        #
+        #     choise = int(input("Выберите цветок (введите номер) или 0 для завершения добавления: "))
+        #     if choise == 0:
+        #         break
+        #
+        #     if 1 <= choise <= len(available_flowers):
+        #         quantity = int(input(f"Сколько {available_flowers[choise - 1].name} вы хотите добавить? Введите число: "))
+        #         bouqet.add_flower(available_flowers[choise-1], quantity)
+        #     else:
+        #         print("Неверный выбор. Пожалуйста, попробуйте снова.")
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        while True:
+            print("\nЦветы в вашем букете:")
+            for index, flower in enumerate(available_flowers, start = 1):
+                print(f"{index}. {flower}")
+
+            try:
+                choise = int(input("Выберите цветок (введите номер) или 0 для завершения добавления: "))
+                if choise == 0:
+                    break
+
+                if 1 <= choise <= len(available_flowers):
+                    quantity = int(input(f"Сколько {available_flowers[choise - 1].name} вы хотите добавить? Введите число: "))
+                    bouqet.add_flower(available_flowers[choise - 1], quantity)
+
+                else:
+                    print("Неверный выбор")
+            except ValueError:
+                print("введите правильно")
+
+        while True:
+            print("\nЦветы в вашем букете:")
+            for index, flower in enumerate(bouqet.flowers):
+                print(f"{index + 1}. {flower}")
+
+            remove_choise = input("Хотите удалить цветы из букета? (да/нет): ").strip().lower()
+            if remove_choise == 'да':
+                try:
+                    remove_index = int(input("Номер цветка для удаления: "))-1
+                    removed_flower = bouqet.remove_flower(remove_index)
+                    if removed_flower:
+                        print(f"Удален: {removed_flower}")
+                    else:
+                        print("Неверный номер цветка.")
+                except ValueError:
+                    print("Неверное число")
+
+            elif remove_choise == 'нет':
+                break
+            else:
+                print("Введите 'да' или 'нет'.")
+
+    print("\nВаши букеты:")
+    client.show_bouqets()
+
+if __name__ == "__main__":
+    main()
