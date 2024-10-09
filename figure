@@ -1,0 +1,103 @@
+#include <iostream>
+#include <string>
+#include <math.h>
+
+
+
+using namespace std;
+
+
+class circle {
+	int R;
+	int center;
+public:
+	void Scircle(int r) {
+		R = r;
+		cout << "Площадь окружности: " << 3.14 * R * R << endl;
+		
+
+	}
+
+};
+
+class rectangle {
+	
+	
+
+
+};
+
+
+
+class dot {
+private:
+	int x;
+	int y;
+public:
+	void createdot(int kx, int ky) {
+		x = kx;
+		y = ky;
+
+		//cout << "координата по х: " << x << '\n' << "координата по y: " << y;
+
+	}
+
+	
+};
+	
+int main() {
+	setlocale(LC_ALL,"RU");
+
+	string figure;
+	cout << "Введите название фигуры (circle, rectangle, triangle): ";
+	cin >> figure;
+	figure[0] = toupper(figure[0]);
+	
+	
+	
+	if (figure == "Circle") {
+		circle R;
+		int R1;
+
+
+		cout << "введите радиус окружности: ";
+		cin >> R1;
+		
+		R.Scircle(R1);
+
+		dot point;
+		int x;
+		int y;
+
+		cout << "введите координату центра окружности точки по х: ";
+		cin >> x;
+
+		cout << "введите координату точки центра окружности по y: ";
+		cin >> y;
+
+		point.createdot(x, y);
+
+	}
+
+
+	if (figure == "Rectangle") {
+		dot p1, p2, p3, p4;
+
+		int x, y;
+
+		cout << "введите координату первой точки по х:  ";
+		cin >> x;
+		cout << "введите координату первой точки по y:  ";
+		cin >> y;
+		p1.createdot(x, y);
+		
+
+
+	}
+
+	
+	
+
+
+	return 0;
+}
