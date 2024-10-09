@@ -1,0 +1,117 @@
+
+class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __repr__(self):
+        return f"({self.x}, {self.y})"
+
+
+class Shape:
+    def area(self):
+        pass
+
+
+class Circle(Shape):z
+    def __init__(self, center, radius):
+        self.center = center
+        self.radius = radius
+
+    def area(self):
+        return 3.14159 * (self.radius ** 2)
+
+    def __repr__(self):
+        return f"Круг(центр={self.center}, радиус={self.radius})"
+
+
+class Triangle(Shape):
+    def __init__(self, point1, point2, point3):
+        self.point1 = point1
+        self.point2 = point2
+        self.point3 = point3
+
+    def area(self):
+        return abs(
+            (self.point1.x * (self.point2.y - self.point3.y) +
+             self.point2.x * (self.point3.y - self.point1.y) +
+             self.point3.x * (self.point1.y - self.point2.y)) / 2
+        )
+
+    def __repr__(self):
+        return f"Треугольник({self.point1}, {self.point2}, {self.point3})"
+
+
+class Rectangle(Shape):
+    def __init__(self, point1, point2, point3, point4):
+        self.point1 = point1
+        self.point2 = point2
+        self.point3 = point3
+        self.point4 = point4
+
+    def distance(self, p1, p2):
+        return ((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2) ** 0.5
+
+    def area(self):
+        side1 = self.distance(self.point1, self.point2)
+        side2 = self.distance(self.point2, self.point3)
+        return side1 * side2
+
+    def __repr__(self):
+        return f"Прямоугольник({self.point1}, {self.point2}, {self.point3}, {self.point4})"
+
+
+def create_circle():
+    x = float(input("Введите координату x центра круга: "))
+    y = float(input("Введите координату y центра круга: "))
+    radius = float(input("Введите радиус круга: "))
+    return Circle(Point(x, y), radius)
+
+
+def create_triangle():
+    p1 = Point(float(input("Введите координату x первой вершины треугольника: ")),
+               float(input("Введите координату y первой вершины треугольника: ")))
+    p2 = Point(float(input("Введите координату x второй вершины треугольника: ")),
+               float(input("Введите координату y второй вершины треугольника: ")))
+    p3 = Point(float(input("Введите координату x третьей вершины треугольника: ")),
+               float(input("Введите координату y третьей вершины треугольника: ")))
+    return Triangle(p1, p2, p3)
+
+
+def create_rectangle():
+    p1 = Point(float(input("Введите координату x первой вершины прямоугольника: ")),
+               float(input("Введите координату y первой вершины прямоугольника: ")))
+    p2 = Point(float(input("Введите координату x второй вершины прямоугольника: ")),
+               float(input("Введите координату y второй вершины прямоугольника: ")))
+    p3 = Point(float(input("Введите координату x третьей вершины прямоугольника: ")),
+               float(input("Введите координату y третьей вершины прямоугольника: ")))
+    p4 = Point(float(input("Введите координату x четвертой вершины прямоугольника: ")),
+               float(input("Введите координату y четвертой вершины прямоугольника: ")))
+    return Rectangle(p1, p2, p3, p4)
+
+
+def main():
+    shapes = []
+
+    i = 0
+    while i != 5:
+        shape_type = input("Введите тип фигуры (1 - круг, 2 - треугольник, 3 - прямоугольник): ").strip().lower()
+        if shape_type == "1":
+            shapes.append(create_circle())
+            i += 1
+        elif shape_type == "2":
+            shapes.append(create_triangle())
+            i += 1
+        elif shape_type == "3":
+            shapes.append(create_rectangle())
+            i += 1
+        else:
+            print("Неверный тип фигуры. Попробуйте снова.")
+
+    print("\nСписок фигур и их площади:")
+    for shape in shapes:
+        print(f"{shape.__class__.__name__}: {shape}, площадь: {shape.area()}")
+
+
+if __name__ == "__main__":
+    main()
